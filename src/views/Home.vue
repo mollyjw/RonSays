@@ -1,7 +1,8 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <p>{{allQuotes}}</p>
+    <h1>Welcome to Ron Says</h1>
+    <v-btn v-on:click="getRandom"> get quote </v-btn>
+    <p> {{random}} </p>
   </div>
 </template>
 
@@ -11,10 +12,19 @@ import Vue from 'vue';
 
 export default Vue.extend({
   name: 'Home',
-  
+  data() {
+    return {
+      random: ""
+    }
+  },
   computed: {
     allQuotes() {
       return store.getters.getAllQuotes
+    }
+  },
+  methods: {
+    getRandom() {
+      this.random = this.allQuotes[Math.floor(Math.random() * this.allQuotes.length)]
     }
   },
   mounted() {

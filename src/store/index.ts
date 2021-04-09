@@ -6,24 +6,26 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    quotes: []
+    quotes: [],
+    searchedQuotes: []
   },
   getters: {
     getAllQuotes: state => {
       return state.quotes
     },
-    getNumQuotes: num => {
-     return axios.get(`https://ron-swanson-quotes.herokuapp.com/v2/${num}`)
-      .then(response => response.data)
-    },
-    getTermQuotes: term => {
-      return axios.get(`https://ron-swanson-quotes.herokuapp.com/v2/search/${term}`)
-      .then(response => response.data)
+    getTermQuotes: state => {
+      return state.searchedQuotes
     }
   },
   mutations: {
     getQuotes(state, quotes) {
       state.quotes = quotes
+    },
+    getSearchedQuotes(state, quotes) {
+      state.searchedQuotes = quotes
+    },
+    clearSearchedQuotes(state) {
+      state.searchedQuotes.splice(0, state.searchedQuotes.length)
     }
   },
   actions: {
@@ -32,6 +34,15 @@ export default new Vuex.Store({
       .then(response => {
         commit('getQuotes', response.data) 
       })
+    },
+    getSearchedQuotes({commit}, term: string) {
+      // context.commit('clearSearchedQuotes')
+      async () => {
+        await axios.get('https://ron-swanson-quotes.herokuapp.com/v2/search/' + term)
+        .then(response => {
+        commit('getSearchedQuotes', response.data)
+        })
+      }
     }
   },
   modules: {
