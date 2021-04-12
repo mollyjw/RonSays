@@ -37,12 +37,12 @@ export default new Vuex.Store({
     },
     getSearchedQuotes({commit}, term: string) {
       // context.commit('clearSearchedQuotes')
-      async () => {
-        await axios.get('https://ron-swanson-quotes.herokuapp.com/v2/search/' + term)
+      
+        axios.get('https://ron-swanson-quotes.herokuapp.com/v2/quotes/search/' + term)
         .then(response => {
         commit('getSearchedQuotes', response.data)
         })
-      }
+      
     }
   },
   modules: {

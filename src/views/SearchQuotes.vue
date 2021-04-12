@@ -13,14 +13,18 @@ export default Vue.extend({
     name: 'SearchQuotes',
     data() {
         return {
-            term: "",
-            results: []
+            term: ""
+        }
+    },
+
+    computed: {
+        results(){
+            return store.getters.getTermQuotes
         }
     },
     methods: {
         search(term: string){
-            this.results = store.dispatch('getSearchedQuotes', term)
-            console.log(this.results)
+            store.dispatch('getSearchedQuotes', term);
         }
     }
 
